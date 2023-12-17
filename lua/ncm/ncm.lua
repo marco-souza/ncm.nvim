@@ -1,8 +1,11 @@
 local M = {}
 
-local split = require("shared.utils").split
 local base_path = vim.fn.resolve(vim.fn.getenv("HOME") .. "/.config")
-local main_path = vim.fn.resolve(base_path .. "/nvim")
+local main_path = base_path .. "/nvim"
+
+local function split(str, sep)
+  return require("shared.utils").split(str, sep)
+end
 
 local function remove_config(path)
   if vim.loop.fs_stat(path) then
