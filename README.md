@@ -91,4 +91,9 @@ After that you can use `:Config` command in your neovim:
 
 # create a config
 :Config scratch marco-souza/scratch.nvim
+
+# delete
+:Config del scratch.nvim
+# or
+:Config del # then select which one to remove
 ```
