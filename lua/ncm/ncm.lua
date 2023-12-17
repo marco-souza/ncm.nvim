@@ -45,7 +45,7 @@ local function create_config(name, repo)
   repo = "https://github.com/" .. repo .. ".git"
 
   -- install config
-  local config_path = base_path .. name .. ".nvim"
+  local config_path = base_path .. "/" .. name .. ".nvim"
   if not vim.loop.fs_stat(config_path) then
     vim.fn.system({
       "git",
