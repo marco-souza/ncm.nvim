@@ -1,7 +1,7 @@
 local M = {}
 
-local split = require("lua.shared.utils").split
-local base_path = vim.fn.resolve("$HOME/.config")
+local split = require("shared.utils").split
+local base_path = vim.fn.resolve(vim.fn.getenv("HOME") .. "/.config")
 local main_path = vim.fn.resolve(base_path .. "/nvim")
 
 local function remove_config(path)
