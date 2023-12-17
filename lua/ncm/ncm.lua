@@ -4,6 +4,16 @@ local split = require("lua.shared.utils").split
 local main_path = vim.fn.stdpath("config")
 local base_path = vim.fn.resolve(main_path .. "/..")
 
+local function remove_config(path)
+  if vim.loop.fs_stat(path) then
+    vim.fn.system({
+      "rm",
+      "-rf",
+      path,
+    })
+  end
+end
+
 ---apply nvim config
 ---@param config_path string
 local function apply_config(config_path)
@@ -14,13 +24,7 @@ local function apply_config(config_path)
     return
   end
 
-  if vim.loop.fs_stat(main_path) then
-    vim.fn.system({
-      "rm",
-      "-rf",
-      main_path,
-    })
-  end
+  remove_config(main_path)
 
   if not vim.loop.fs_symlink(config_path, main_path) then
     return vim.notify("failed to link new dir 🥲")
@@ -54,11 +58,19 @@ local function create_config(name, repo)
   vim.notify(name .. " config created!")
 end
 
-local function select_config(name)
+---select config
+--
+-- if name is pass, no select input will be shown
+--
+---@param name string | nil -- if
+---@param prompt string
+---@param on_select_config function(config_path string)
+--
+---@return unknown
+local function select_config(name, prompt, on_select_config)
   if name ~= nil then
     local config_path = base_path .. "/" .. name
-    vim.notify("config path: " .. config_path)
-    return apply_config(config_path)
+    return on_select_config(config_path)
   end
 
   local options = {}
@@ -74,20 +86,30 @@ local function select_config(name)
   end
 
   local function on_select(selected_config)
+    if selected_config == nil then
+      return
+    end
+
     local config_path = base_path .. "/" .. selected_config
-    vim.notify("selected config path: " .. config_path)
-    return apply_config(config_path)
+    return on_select_config(config_path)
   end
 
-  vim.ui.select(options, { prompt = "Select a config to load" }, on_select)
+  return vim.ui.select(options, { prompt = prompt }, on_select)
 end
 
 function M.config_command(opts)
   local args = split(opts.args or "", "%S")
   local name, repo = table.unpack(args)
 
+  if name == "del" then
+    name = repo -- switch values
+    local prompt = "🗑️ Select a config to delete"
+    return select_config(name, prompt, remove_config)
+  end
+
   if repo == nil then
-    return select_config(name)
+    local prompt = "🛫 Select a config to load"
+    return select_config(name, prompt, apply_config)
   end
 
   return create_config(name, repo)
