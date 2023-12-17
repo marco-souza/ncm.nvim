@@ -1,8 +1,3 @@
-P = function(v)
-  print(vim.inspect(v))
-  return v
-end
-
 RELOAD = function(...)
   return require("plenary.reload").reload_module(...)
 end
@@ -13,16 +8,17 @@ R = function(name)
 end
 
 if not table.unpack then
+  ---@diagnostic disable-next-line: deprecated
   table.unpack = unpack
 end
 
-local M = {}
+local String = {}
 
 ---Split a string into a table
 ---@param str string
 ---@param separator string | nil
 ---@return table
-function M.split(str, separator)
+function String.split(str, separator)
   local lines = {}
   local sep = separator or "^\r\n" -- line break
 
@@ -33,4 +29,6 @@ function M.split(str, separator)
   return lines
 end
 
-return M
+return {
+  String = String,
+}

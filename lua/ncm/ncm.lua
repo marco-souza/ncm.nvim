@@ -1,11 +1,8 @@
+local String = require("shared.utils").String
 local M = {}
 
 local base_path = vim.fn.resolve(vim.fn.getenv("HOME") .. "/.config")
 local main_path = base_path .. "/nvim"
-
-local function split(str, sep)
-  return require("shared.utils").split(str, sep)
-end
 
 local function remove_config(path)
   if vim.loop.fs_stat(path) then
@@ -92,7 +89,7 @@ local function select_config(name, prompt, on_select_config)
     base_path,
   })
 
-  for _, val in ipairs(split(all_files)) do
+  for _, val in ipairs(String.split(all_files)) do
     if string.match(val, ".nvim") then
       table.insert(options, val)
     end
@@ -111,7 +108,7 @@ local function select_config(name, prompt, on_select_config)
 end
 
 function M.config_command(opts)
-  local args = split(opts.args or "", "%S")
+  local args = String.split(opts.args or "", "%S")
   local name, repo = table.unpack(args)
 
   if name == "del" then
