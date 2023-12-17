@@ -12,8 +12,10 @@ local function remove_config(path)
     })
   end
 
+  local cache_list
+
   local cache_path =
-    vim.fn.resolve(vim.fn.getenv("HOME") .. "/.local/shared/nvim")
+    vim.fn.resolve(vim.fn.getenv("HOME") .. "/.local/share/nvim")
   if vim.loop.fs_stat(cache_path) then
     vim.fn.system({
       "rm",
