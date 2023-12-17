@@ -12,13 +12,11 @@ if not table.unpack then
   table.unpack = unpack
 end
 
-local String = {}
-
 ---Split a string into a table
 ---@param str string
 ---@param separator string | nil
 ---@return table
-function String.split(str, separator)
+string.split = function(str, separator)
   local lines = {}
   local sep = separator or "^\r\n" -- line break
 
@@ -29,6 +27,3 @@ function String.split(str, separator)
   return lines
 end
 
-return {
-  String = String,
-}

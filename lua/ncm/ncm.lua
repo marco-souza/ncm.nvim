@@ -1,4 +1,3 @@
-local String = require("shared.utils").String
 local M = {}
 
 local base_path = vim.fn.resolve(vim.fn.getenv("HOME") .. "/.config")

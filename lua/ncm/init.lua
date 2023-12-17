@@ -6,6 +6,7 @@ local M = {}
 function M.setup()
   -- setup deps
   require("telescope").load_extension("ui-select")
+  require("ncm.utils")
 
   -- setup commands
   local opts = { nargs = "?" }
