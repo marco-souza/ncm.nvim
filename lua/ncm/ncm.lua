@@ -62,7 +62,7 @@ end
 --
 -- if name is pass, no select input will be shown
 --
----@param name string | nil -- if
+---@param name string | nil
 ---@param prompt string
 ---@param on_select_config function(config_path string)
 --
