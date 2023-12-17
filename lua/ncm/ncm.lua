@@ -88,7 +88,7 @@ local function select_config(name, prompt, on_select_config)
     base_path,
   })
 
-  for _, val in ipairs(String.split(all_files)) do
+  for _, val in ipairs(string.split(all_files)) do
     if string.match(val, ".nvim") then
       table.insert(options, val)
     end
@@ -107,7 +107,7 @@ local function select_config(name, prompt, on_select_config)
 end
 
 function M.config_command(opts)
-  local args = String.split(opts.args or "", "%S")
+  local args = string.split(opts.args or "", "%S")
   local name, repo = table.unpack(args)
 
   if name == "del" then
